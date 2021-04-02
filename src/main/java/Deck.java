@@ -1,3 +1,5 @@
+package main.java;
+
 public class Deck {
 
     private final int cardAmount;
