@@ -1,22 +1,27 @@
 package main.java;
 
-public class BlackjackGame implements Game {
+public class BlackjackGame extends Game {
 
-    private final Deck deck;
-    private final Hand playerHand;
-    private final Hand dealerHand;
-
-    public BlackjackGame() {
-        deck = new Deck(408);
-        this.playerHand = new Hand();
-        this.dealerHand = new Hand();
+    public BlackjackGame(int cardAmount) {
+        super(cardAmount);
     }
 
-    public void DealToPlayer() {
+    @Override
+    public void InitialDeal() {
         this.playerHand.AddCard(deck.DrawCard());
+        this.playerHand.AddCard(deck.DrawCard());
+
+        this.dealerHand.AddCard(deck.DrawCard());
+        this.dealerHand.AddCard(deck.DrawCard());
     }
 
-    public void DealToDealer() {
-        this.dealerHand.AddCard(deck.DrawCard());
+    @Override
+    public void CheckState() {
+
+    }
+
+    @Override
+    public void End() {
+
     }
 }

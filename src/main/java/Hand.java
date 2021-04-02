@@ -21,4 +21,11 @@ public class Hand {
     public ArrayList<Card> Cards() {
         return cards;
     }
+
+    @Override
+    public String toString() {
+        return "Hand{" +
+                "cards=" + cards +
+                '}';
+    }
 }

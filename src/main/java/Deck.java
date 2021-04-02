@@ -1,5 +1,7 @@
 package main.java;
 
+import java.util.Random;
+
 public class Deck {
 
     private final int cardAmount;
@@ -9,6 +11,9 @@ public class Deck {
     }
 
     public Card DrawCard() {
-        return new Card();
+        int face = new Random().nextInt(12) + 1;
+        int suitInt = new Random().nextInt(3) + 1;
+        Suit suit = Suit.values()[suitInt];
+        return new Card(suit, face);
     }
 }
