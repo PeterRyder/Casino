@@ -1,4 +1,6 @@
-package main.java;
+package main.java.blackjack;
+
+import main.java.Game;
 
 public class BlackjackGame extends Game {
 

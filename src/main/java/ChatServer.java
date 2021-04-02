@@ -1,11 +1,15 @@
 package main.java;
 
+import main.java.blackjack.BlackjackGame;
+import main.java.blackjack.actions.Hit;
+import main.java.blackjack.actions.Stay;
 import org.java_websocket.WebSocket;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -16,17 +20,30 @@ import java.util.HashMap;
 public class ChatServer extends WebSocketServer {
 
     private final HashMap<WebSocket, Game> connections = new HashMap<WebSocket, Game>();
+    private final ActionHandler actionHandler = new ActionHandler();
 
     public ChatServer(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
+        this.SubscribeActions();
     }
 
     public ChatServer(InetSocketAddress address) {
         super(address);
+        this.SubscribeActions();
     }
 
     public ChatServer(int port, Draft_6455 draft) {
         super(new InetSocketAddress(port), Collections.<Draft>singletonList(draft));
+        this.SubscribeActions();
+    }
+
+    private void SubscribeActions() {
+        try {
+            this.actionHandler.subscribe(Hit.class);
+            this.actionHandler.subscribe(Stay.class);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -48,23 +65,12 @@ public class ChatServer extends WebSocketServer {
     public void onMessage(WebSocket conn, String message) {
         broadcast(message);
         System.out.println(conn + ": " + message);
-        if (message.equals("hit")) {
-            connections.get(conn).DealToPlayer();
-            connections.get(conn).ShowPlayerHand();
-            connections.get(conn).ShowDealerHand();
-        }
-        else if (message.equals("stay")) {
-            connections.get(conn).ShowPlayerHand();
-            connections.get(conn).ShowDealerHand();
-        }
-        else if (message.equals("double")) {
-
-        }
-        else if (message.equals("split")) {
-
-        }
-        else if (message.equals("surrender")) {
-
+        try {
+            this.actionHandler.dispatch(new ActionContext(connections.get(conn)), message);
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            conn.send("Invalid command");
         }
     }
 
