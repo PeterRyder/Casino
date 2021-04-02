@@ -1,5 +1,3 @@
-package main.java;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +9,7 @@ public class Main {
         try {
             port = Integer.parseInt(args[0]);
         } catch (Exception ex) {
-
+            // Empty catch, bind to default if none provided
         }
         ChatServer s = new ChatServer(port);
         s.start();
