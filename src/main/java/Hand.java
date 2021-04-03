@@ -18,6 +18,14 @@ public class Hand {
         this.cards.remove(card);
     }
 
+    public int getTotal() {
+        int total = 0;
+        for (int i = 0; i < cards.size() - 1; i++) {
+            total += cards.get(i).getValue();
+        }
+        return total;
+    }
+
     public ArrayList<Card> Cards() {
         return cards;
     }

@@ -10,6 +10,10 @@ public class Card {
         this.face = face;
     }
 
+    public int getValue() {
+        return face;
+    }
+
     @Override
     public String toString() {
         return "Card{" +

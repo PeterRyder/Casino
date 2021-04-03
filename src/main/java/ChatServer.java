@@ -50,7 +50,7 @@ public class ChatServer extends WebSocketServer {
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         conn.send("Welcome to the server!"); //This method sends a message to the new client
         System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " has created a new game!");
-        connections.put(conn, new BlackjackGame(408));
+        connections.put(conn, new BlackjackGame(416));
         conn.send("New Game!");
         connections.get(conn).ShowPlayerHand();
         connections.get(conn).ShowDealerHand();
