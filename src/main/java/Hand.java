@@ -21,7 +21,11 @@ public class Hand {
     public int getTotal() {
         int total = 0;
         for (int i = 0; i < cards.size() - 1; i++) {
-            total += cards.get(i).getValue();
+            int cardTotal = cards.get(i).getValue();
+            if (cardTotal == 11 || cardTotal == 12 || cardTotal == 13) {
+                cardTotal = 10;
+            }
+            total += cardTotal;
         }
         return total;
     }
